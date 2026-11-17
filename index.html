@@ -475,6 +475,22 @@ footer .wrap{align-items:center}
 .csoc{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:26px}
 .csoc>span{font-size:14px;font-weight:600;color:var(--muted)}
 .csoc .soc a{width:38px;height:38px}
+
+/* ===== media viewer v2 ===== */
+.lb{z-index:300;padding:max(64px,env(safe-area-inset-top)) 16px max(20px,env(safe-area-inset-bottom));grid-template-rows:1fr auto auto;justify-items:center;align-items:center;gap:12px;background:rgba(0,0,0,.88);overscroll-behavior:contain;touch-action:pan-y}
+.lb.on{display:grid}
+.lb .x{position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:2;border:0;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);color:#0A0A0A;font-size:18px;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.lb .box{max-width:none;max-height:none;display:grid;place-items:center;min-height:0}
+.lb .box iframe{border:0;display:block;border-radius:18px;background:#000}
+.lb .box.is-reel iframe{width:min(92vw,420px,calc((100svh - 170px)*9/16));aspect-ratio:9/16;height:auto}
+.lb .box.is-video iframe{width:min(1000px,94vw,calc((100svh - 170px)*16/9));aspect-ratio:16/9;height:auto}
+.lb .box img,.lb .box video{max-width:min(94vw,1000px);max-height:calc(100svh - 170px);border-radius:18px;display:block}
+.lbnav{display:flex;align-items:center;gap:18px;color:#fff;font:600 14px Inter,sans-serif}
+.lbnav button{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center;padding-bottom:3px}
+.lbnav button:active{background:rgba(255,255,255,.3)}
+.lbyt{color:rgba(255,255,255,.75);font-size:13px;font-weight:600}
+body.lb-open{overflow:hidden}
+body.lb-open .mbar,body.lb-open #prog,body.lb-open #dotc,body.lb-open #glow{display:none!important}
 </style>
 </head>
 <body>
@@ -769,7 +785,7 @@ footer .wrap{align-items:center}
 <div class="pcta"><a class="btn btn-p" href="https://www.upwork.com/freelancers/~0168f5a7095bd1db68" target="_blank" rel="noopener">View Upwork profile ↗</a><a class="btn btn-g" href="#contact">Get a Quote</a></div>
 </div></div>
 
-<div class="lb" id="lb"><span class="x" onclick="closeLb()">✕</span><div class="box" id="lbBox"></div></div>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Media viewer"><button type="button" class="x" onclick="closeLb()" aria-label="Close">✕</button><div class="box" id="lbBox"></div><div class="lbnav" id="lbNav"><button type="button" id="lbPrev" aria-label="Previous">‹</button><span id="lbCount"></span><button type="button" id="lbNext" aria-label="Next">›</button></div><a class="lbyt" id="lbYt" target="_blank" rel="noopener">Watch on YouTube ↗</a></div>
 <footer><div class="wrap">
   <span>© 2026 The ScaleUp 360. Scaling Every Angle.</span>
   <div class="soc"><a href="https://www.facebook.com/thescaleup360" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2h-3a5 5 0 0 0-5 5v3H6v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.instagram.com/thescaleup360" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.threads.com/@thescaleup360" target="_blank" rel="noopener" aria-label="Threads" title="Threads"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16.1 11.4c-.1-.05-.2-.1-.3-.14-.18-3.2-1.95-5.04-4.9-5.06h-.04c-1.77 0-3.24.75-4.15 2.12l1.62 1.11c.68-1.02 1.73-1.24 2.53-1.24h.03c1 .01 1.76.3 2.24.87.35.41.58 1 .7 1.73a12.6 12.6 0 0 0-2.85-.14c-2.86.16-4.7 1.84-4.58 4.16.06 1.18.65 2.19 1.66 2.85.85.56 1.95.83 3.09.77 1.51-.08 2.69-.66 3.52-1.71.63-.8 1.03-1.83 1.2-3.14.72.43 1.25 1 1.54 1.68.5 1.16.53 3.07-1.02 4.62-1.36 1.36-3 1.95-5.48 1.97-2.75-.02-4.83-.9-6.19-2.62C3.44 17.7 2.78 15.5 2.75 12.6c.03-2.9.69-5.1 1.97-6.73C6.08 4.15 8.16 3.27 10.91 3.25c2.77.02 4.89.9 6.3 2.63.69.84 1.21 1.9 1.56 3.14l1.9-.5c-.42-1.53-1.08-2.85-1.98-3.94C16.88 2.37 14.25 1.26 10.92 1.24h-.01C7.58 1.26 4.98 2.38 3.2 4.58 1.63 6.54.82 9.26.79 12.59v.02c.03 3.33.84 6.05 2.41 8.01 1.78 2.2 4.38 3.32 7.72 3.34h.01c2.97-.02 5.06-.8 6.79-2.52 2.26-2.26 2.19-5.1 1.44-6.84-.53-1.25-1.55-2.26-2.95-2.92zm-4.72 5.07c-1.26.07-2.57-.5-2.63-1.69-.05-.88.62-1.86 2.71-1.98.24-.02.47-.02.7-.02.76 0 1.47.08 2.12.22-.24 3.02-1.66 3.4-2.9 3.47z" stroke="none" fill="currentColor"/></svg></a><a href="https://www.linkedin.com/company/the-scaleup-360/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4"/></svg></a><a href="https://www.youtube.com/@thescaleup360" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z"/></svg></a></div>
@@ -819,16 +835,23 @@ function renderGal(g,t){
   var grid=g.querySelector('.mgrid');grid.className='mgrid '+t;grid.innerHTML='';
   var items=(MEDIA[g.dataset.client]||{})[t]||[];
   if(!items.length&&SHOW_PLACEHOLDERS){for(var k=0;k<PH[t];k++){var d=document.createElement('div');d.className='mi';d.innerHTML='<div class="ph">'+({reels:'Reel',videos:'Video',statics:'Static post'})[t]+' '+(k+1)+'<br>coming soon</div>';grid.appendChild(d);}return;}
-  items.forEach(function(m){var d=document.createElement('div');d.className='mi';
+  items.forEach(function(m,ix){var d=document.createElement('div');d.className='mi';
     if(t==='statics'){d.innerHTML='<img loading="lazy" src="'+m.src+'" alt="'+(m.cap||'Static post')+'">';}
     else if(m.yt){d.innerHTML='<img loading="lazy" src="'+(m.poster||'https://i.ytimg.com/vi/'+ytId(m.yt)+'/hqdefault.jpg')+'" alt="'+(m.cap||'Video')+'"><span class="play">▶</span>';}
     else{d.innerHTML=(m.poster?'<img loading="lazy" src="'+m.poster+'" alt="">':'<video muted playsinline preload="metadata" src="'+m.src+'#t=0.5"></video>')+'<span class="play">▶</span>';}
     if(m.cap)d.innerHTML+='<span class="cap">'+m.cap+'</span>';
-    d.onclick=function(){openLb(t,m)};grid.appendChild(d);});
+    d.onclick=function(){openLb(t,m,items,ix)};grid.appendChild(d);});
 }
-function openLb(t,m){var b=document.getElementById('lbBox');if(m.yt){var v=t==='reels';b.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+ytId(m.yt)+'?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border:0;border-radius:18px;display:block;'+(v?'height:min(82vh,760px);aspect-ratio:9/16':'width:min(1000px,92vw);aspect-ratio:16/9')+'"></iframe><a href="https://www.youtube.com/watch?v='+ytId(m.yt)+'" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:12px;color:#fff;font-weight:600;font-size:14px">Not playing? Watch on YouTube ↗</a>';document.getElementById('lb').classList.add('on');return;}
-  b.innerHTML=t==='statics'?'<img src="'+m.src+'" alt="">':'<video src="'+m.src+'" controls autoplay playsinline></video>';document.getElementById('lb').classList.add('on');}
-function closeLb(){document.getElementById('lb').classList.remove('on');document.getElementById('lbBox').innerHTML='';}
+var LB={t:null,items:[],i:0,y:0};
+function lbRender(){var m=LB.items[LB.i],t=LB.t,b=document.getElementById('lbBox'),yt=document.getElementById('lbYt');
+  b.className='box '+(t==='reels'?'is-reel':t==='videos'?'is-video':'is-img');
+  if(m.yt){var id=ytId(m.yt);b.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1" title="'+(m.cap||'Video').replace(/"/g,'')+'" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';yt.href='https://www.youtube.com/watch?v='+id;yt.style.display='';}
+  else{yt.style.display='none';b.innerHTML=t==='statics'?'<img src="'+m.src+'" alt="">':'<video src="'+m.src+'" controls autoplay playsinline></video>';}
+  var n=LB.items.length;document.getElementById('lbNav').style.display=n>1?'':'none';document.getElementById('lbCount').textContent=(LB.i+1)+' / '+n;}
+function openLb(t,m,items,ix){LB.t=t;LB.items=items||[m];LB.i=ix||0;lbRender();
+  LB.y=scrollY;document.body.classList.add('lb-open');document.getElementById('lb').classList.add('on');}
+function lbStep(d){var n=LB.items.length;if(n<2)return;LB.i=(LB.i+d+n)%n;lbRender();}
+function closeLb(){document.getElementById('lb').classList.remove('on');document.getElementById('lbBox').innerHTML='';document.body.classList.remove('lb-open');}
 document.getElementById('lb').addEventListener('click',function(e){if(e.target.id==='lb')closeLb();});
 document.querySelectorAll('.gal').forEach(function(g){
   var tabs=['reels','videos','statics'],m=MEDIA[g.dataset.client]||{};
@@ -1017,6 +1040,11 @@ document.querySelectorAll('#creative .grid,#services .grid').forEach(function(g)
    then add it here, e.g.  "Shopify":"media/logos/shopify.svg"  */
 var TOOL_LOGOS={};
 document.querySelectorAll('.tchip').forEach(function(c){var s=TOOL_LOGOS[c.dataset.tool];if(s){var i=new Image();i.src=s;i.alt='';c.prepend(i);}});
+
+document.getElementById('lbPrev').onclick=function(){lbStep(-1)};document.getElementById('lbNext').onclick=function(){lbStep(1)};
+document.addEventListener('keydown',function(e){if(!document.getElementById('lb').classList.contains('on'))return;if(e.key==='ArrowRight')lbStep(1);if(e.key==='ArrowLeft')lbStep(-1);});
+(function(){var lb=document.getElementById('lb'),sx=0,sy=0;lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+ lb.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)lbStep(dx<0?1:-1);},{passive:true});})();
 </script>
 </body>
 </html>
