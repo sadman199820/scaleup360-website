@@ -1,0 +1,5 @@
+backup_*
+*.b64
+.env
+.DS_Store
+Thumbs.db
