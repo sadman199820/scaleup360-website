@@ -263,6 +263,7 @@ footer{background:rgba(255,255,255,.5)}
 .tilt{transform-style:preserve-3d;will-change:transform}
 .tilt .glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.75),transparent 45%);mix-blend-mode:soft-light;z-index:3}
 .tilt:hover .glare{opacity:1}
+body.dark .tilt .glare{display:none}
 .card,.case,.step,.why div{transition:transform .25s ease-out,box-shadow .3s,border-color .3s}
 .core{position:relative;overflow:hidden}
 .core:after{content:"";position:absolute;inset:-2px;border-radius:30px;padding:2px;background:conic-gradient(from var(--a,0deg),transparent 0 60%,#02C463 75%,#00A3FF 85%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 5s linear infinite;pointer-events:none}
