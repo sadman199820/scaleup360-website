@@ -503,6 +503,17 @@ body.dark .chip.loc{background:rgba(255,255,255,.1)!important;border-color:rgba(
 #services-reel{display:block;width:100%;aspect-ratio:9/16;object-fit:contain;background:#09241c}
 .h2r .t2{pointer-events:none;z-index:1}
 @media(max-width:520px){.h2r .phone{display:block;width:min(68%,220px);margin:0 auto}.h2r .dash,.h2r .t1{display:none}}
+</style><style>
+.dash{animation:none;translate:none!important;pointer-events:auto}
+.dash:hover,.dash:focus-within{z-index:4}
+.chart-hint{font-size:12px;color:var(--muted);margin:9px 0}
+.week-bars{display:flex;height:136px;gap:2px}
+.week-bars button{position:relative;flex:1;min-width:0;cursor:pointer;border:0;background:transparent;color:var(--text);padding:0;border-radius:5px}
+.week-bars i{position:absolute;bottom:23px;left:8%;width:84%;height:calc(var(--height) * .8);background:#73cca4;border-radius:6px 6px 2px 2px}
+.week-bars [aria-pressed=true] i{background:#00844e;outline:2px solid currentColor;outline-offset:1px}
+.week-bars button:focus-visible{outline:2px solid currentColor}
+.week-bars small{position:absolute;bottom:1px;left:0;width:100%;font-size:11px}
+@media(max-width:520px){.h2r .dash{display:block;margin:0 0 20px}}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="ukc"><rect width="15" height="7.5"/></clipPath></defs></svg>
@@ -532,12 +543,21 @@ body.dark .chip.loc{background:rgba(255,255,255,.1)!important;border-color:rgba(
 <div class="pick-cta" id="pickc"></div></div>
   </div>
   <div class="h2r">
-    <div class="fl dash" aria-hidden="true">
+    <section class="fl dash" aria-label="Illustrative weekly campaign performance">
       <div class="dh"><span>Example campaign view</span><span class="live">● Illustration</span></div>
-      <div class="bars"><i style="--h:28%"></i><i style="--h:40%"></i><i style="--h:35%"></i><i style="--h:55%"></i><i style="--h:50%"></i><i style="--h:72%"></i><i style="--h:68%"></i><i style="--h:90%"></i></div>
-      <svg viewBox="0 0 300 70" class="line"><path d="M0 60 C40 55 60 48 90 44 S150 30 180 26 S240 12 300 4" fill="none" stroke="#02C463" stroke-width="3" stroke-linecap="round"/></svg>
-      <div class="kp"><div><small>Revenue</small><b>↑ Growing</b></div><div><small>Cost per sale</small><b class="dn">↓ Falling</b></div></div>
-    </div>
+      <p class="chart-hint">Select a week to explore revenue.</p>
+      <div class="week-bars" role="group" aria-label="Weekly revenue in US dollars">
+        <button type="button" aria-label="Week 1" aria-pressed="false" data-revenue="1400" data-cost="32" style="--height:28%"><i></i><small>W1</small></button>
+        <button type="button" aria-label="Week 2" aria-pressed="false" data-revenue="2000" data-cost="30" style="--height:40%"><i></i><small>W2</small></button>
+        <button type="button" aria-label="Week 3" aria-pressed="false" data-revenue="1750" data-cost="31" style="--height:35%"><i></i><small>W3</small></button>
+        <button type="button" aria-label="Week 4" aria-pressed="false" data-revenue="2750" data-cost="27" style="--height:55%"><i></i><small>W4</small></button>
+        <button type="button" aria-label="Week 5" aria-pressed="false" data-revenue="2500" data-cost="28" style="--height:50%"><i></i><small>W5</small></button>
+        <button type="button" aria-label="Week 6" aria-pressed="false" data-revenue="3600" data-cost="24" style="--height:72%"><i></i><small>W6</small></button>
+        <button type="button" aria-label="Week 7" aria-pressed="false" data-revenue="3400" data-cost="25" style="--height:68%"><i></i><small>W7</small></button>
+        <button type="button" aria-label="Week 8" aria-pressed="true" data-revenue="4500" data-cost="21" style="--height:90%"><i></i><small>W8</small></button>
+      </div>
+      <div class="kp" aria-live="polite" aria-atomic="true"><div><small id="week-label">Week 8 revenue</small><b id="week-revenue">$4,500</b></div><div><small>Cost per sale</small><b id="week-cost">$21</b></div></div>
+    </section>
     <div class="fl phone"><div class="scr"><video id="services-reel" muted playsinline loop controls preload="metadata" poster="media/brand/services-poster.jpg" aria-label="The ScaleUp 360 services in 15 seconds: creative content, paid ads, websites and automated follow-up"><source src="media/brand/services.mp4" type="video/mp4"></video></div></div>
     <div class="fl toast t1"><span class="ti">🛒</span><div><b>New order</b><small>from your Meta ad</small></div></div>
     <div class="fl toast t2"><span class="ti">💬</span><div><b>Auto-replied</b><small>to a customer DM</small></div></div>
@@ -1081,5 +1101,26 @@ document.addEventListener('keydown',function(e){if(!document.getElementById('lb'
   },{threshold:0.5});
   observer.observe(reel);
 })();
-</script></body>
+</script><script>
+(function(){
+  var bars=Array.from(document.querySelectorAll('.week-bars button'));
+  var currency=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+  function selectWeek(button){
+    if(button.getAttribute('aria-pressed')==='true')return;
+    bars.forEach(function(bar){bar.setAttribute('aria-pressed',String(bar===button))});
+    document.getElementById('week-label').textContent=button.getAttribute('aria-label')+' revenue';
+    document.getElementById('week-revenue').textContent=currency.format(button.dataset.revenue);
+    document.getElementById('week-cost').textContent=currency.format(button.dataset.cost);
+  }
+  bars.forEach(function(button,index){
+    button.onpointerenter=function(e){if(e.pointerType==='mouse')selectWeek(button)};
+    button.onclick=button.onfocus=function(){selectWeek(button)};
+    button.onkeydown=function(e){
+      var step={ArrowRight:1,ArrowLeft:-1}[e.key];
+      if(step){e.preventDefault();bars[(index+step+bars.length)%bars.length].focus()}
+    };
+  });
+})();
+</script>
+</body>
 </html>
