@@ -497,7 +497,13 @@ body.lb-open .mbar,body.lb-open #prog,body.lb-open #dotc,body.lb-open #glow{disp
 body.dark .chip.loc{background:rgba(255,255,255,.1)!important;border-color:rgba(255,255,255,.16)!important}
 .chip.loc .flag{border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.12);flex:none}
 </style>
-</head>
+<style>
+.h2r .phone{height:auto;aspect-ratio:9/16;pointer-events:auto}
+.h2r .phone .scr{height:100%}
+#services-reel{display:block;width:100%;aspect-ratio:9/16;object-fit:contain;background:#09241c}
+.h2r .t2{pointer-events:none;z-index:1}
+@media(max-width:520px){.h2r .phone{display:block;width:min(68%,220px);margin:0 auto}.h2r .dash,.h2r .t1{display:none}}
+</style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="ukc"><rect width="15" height="7.5"/></clipPath></defs></svg>
 <div id="prog"></div><div id="glow"></div><div id="dotc"></div>
@@ -525,14 +531,14 @@ body.dark .chip.loc{background:rgba(255,255,255,.1)!important;border-color:rgba(
 <button data-v="Performance marketing">📈 Ads that sell</button><button data-v="Video / Reels / Motion graphics">🎬 Reels & video</button><button data-v="Ad creatives & static design">🎨 Ad creatives</button><button data-v="New website">💻 Website</button><button data-v="Automation">⚡ Automation</button></div>
 <div class="pick-cta" id="pickc"></div></div>
   </div>
-  <div class="h2r" aria-hidden="true">
-    <div class="fl dash">
+  <div class="h2r">
+    <div class="fl dash" aria-hidden="true">
       <div class="dh"><span>Example campaign view</span><span class="live">● Illustration</span></div>
       <div class="bars"><i style="--h:28%"></i><i style="--h:40%"></i><i style="--h:35%"></i><i style="--h:55%"></i><i style="--h:50%"></i><i style="--h:72%"></i><i style="--h:68%"></i><i style="--h:90%"></i></div>
       <svg viewBox="0 0 300 70" class="line"><path d="M0 60 C40 55 60 48 90 44 S150 30 180 26 S240 12 300 4" fill="none" stroke="#02C463" stroke-width="3" stroke-linecap="round"/></svg>
       <div class="kp"><div><small>Revenue</small><b>↑ Growing</b></div><div><small>Cost per sale</small><b class="dn">↓ Falling</b></div></div>
     </div>
-    <div class="fl phone"><div class="scr"><div class="pl">▶</div><div class="pc"><b>New drop is live 🔥</b><span>Sponsored · Shop now</span></div></div></div>
+    <div class="fl phone"><div class="scr"><video id="services-reel" muted playsinline loop controls preload="metadata" poster="media/brand/services-poster.jpg" aria-label="The ScaleUp 360 services in 15 seconds: creative content, paid ads, websites and automated follow-up"><source src="media/brand/services.mp4" type="video/mp4"></video></div></div>
     <div class="fl toast t1"><span class="ti">🛒</span><div><b>New order</b><small>from your Meta ad</small></div></div>
     <div class="fl toast t2"><span class="ti">💬</span><div><b>Auto-replied</b><small>to a customer DM</small></div></div>
   </div>
@@ -1066,5 +1072,14 @@ document.addEventListener('keydown',function(e){if(!document.getElementById('lb'
 (function(){var lb=document.getElementById('lb'),sx=0,sy=0;lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
  lb.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)lbStep(dx<0?1:-1);},{passive:true});})();
 </script>
-</body>
+<script>
+(function(){
+  var reel=document.getElementById('services-reel');
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window))return;
+  var observer=new IntersectionObserver(function(entries){
+    if(entries[0].intersectionRatio>=0.5){observer.disconnect();reel.play().catch(function(){});}
+  },{threshold:0.5});
+  observer.observe(reel);
+})();
+</script></body>
 </html>
