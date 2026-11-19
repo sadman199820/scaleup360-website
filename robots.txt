@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://thescaleup360.com/sitemap.xml
